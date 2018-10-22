@@ -8,7 +8,12 @@ var router = express.Router();
 
 // Get all users
 router.get('/', (req, res) => {
-  res.json([{name: 'jude'}, {name: 'Ishara'}, {name: 'theepan'}])
+  res.json([
+    { name: 'Jude' }, 
+    { name: 'Ishara' }, 
+    { name: 'Theepan' }, 
+    { name: 'Lilan' }
+  ])
 });
 
 //export this router to use in our routes.js

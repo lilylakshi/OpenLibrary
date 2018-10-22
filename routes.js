@@ -10,10 +10,10 @@ var router = express.Router();
 
 // Books related APIs
 var booksApi = require('./apis/bookRoutes.js');
-router.use('/book', booksApi);
+router.use('/books', booksApi);
 
 // Users related APIs
 var usersApi = require('./apis/userRoutes.js');
-router.use('/user', usersApi);
+router.use('/users', usersApi);
 
 module.exports = router;
