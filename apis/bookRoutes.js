@@ -3,12 +3,19 @@
  */
 'use strict';
 
+var fs = require('fs');
 var express = require('express');
 var router = express.Router();
 
+var bodyParser = require('body-parser');
+router.use(bodyParser.json()); // support json encoded bodies
+router.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+
 // Get all books
 router.get('/', (req, res) => {
-  res.json([{name: 'book 1'}, {name: 'book 2'}, {name: 'book 3'}])
+  fs.readFile('data/books.json', (err, data) => {
+    res.json(JSON.parse(data));
+  });
 });
 
 // Get a single book
@@ -18,7 +25,17 @@ router.get('/:id', (req, res) => {
 
 // Add a book
 router.post('/', (req, res) => {
-  res.json({name: 'book added'});
+  fs.readFile('data/books.json', (readErr, data) => {
+    var books = JSON.parse(data);
+    books.push(req.body);
+    fs.writeFile('data/books.json', JSON.stringify(books, null, 2), (writeErr) => {
+      if(writeErr) {
+        // return error
+        res.json({"status": "error"});
+      }
+      res.json(req.body);
+    });
+  });
 });
 
 // Update a book
