@@ -16,6 +16,9 @@ router.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 // Signin a user
 router.post('/signin', (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Origin, Authorization, Accept, Client-Security-Token, Accept-Encoding');
+
     var username = req.body.username;
     var password = req.body.password;
 
@@ -55,8 +58,27 @@ router.post('/signin', (req, res) => {
     });
 });
 
+router.options('/register', function(req, res){
+    console.log("----------------register(options) request received!-------------------------");
+    res.header("Access-Control-Allow-Origin", "*");
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Origin, Authorization, Accept, Client-Security-Token, Accept-Encoding');
+    res.end('');
+});
+
+router.options('/signin', function(req, res){
+    console.log("----------------register(options) request received!-------------------------");
+    res.header("Access-Control-Allow-Origin", "*");
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Origin, Authorization, Accept, Client-Security-Token, Accept-Encoding');
+    res.end('');
+});
+
 // Register a new user
 router.post('/register', (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Origin, Authorization, Accept, Client-Security-Token, Accept-Encoding');
+
+    console.log("----------------register(post) request received!-------------------------")
     var username = req.body.username;
     var password = req.body.password;
 
@@ -83,6 +105,7 @@ router.post('/register', (req, res) => {
             'username': lowerUsername,
             'password': hashedPassword
         }, function (err, user) {
+
             if (err) return res.status(500).json({ 'auth': false, 'token': null, 'message': 'Error registering user' })
 
             // Payload to sign into JWT token

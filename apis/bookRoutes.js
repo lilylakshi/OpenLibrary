@@ -20,8 +20,21 @@ router.get('/', tokenVerifier.verifyUser, (req, res) => {
     if (err) res.json({ name: 'error getting all books' });
 
     // send the books if success
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
     res.json(books);
   })
+});
+
+router.options('/', function(req, res){
+  console.log("----------------root(options) request received!-------------------------");
+  res.header("Access-Control-Allow-Origin", "*");
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Origin, Authorization, Accept, Client-Security-Token, Accept-Encoding, x-access-token');
+  res.end('');
 });
 
 // Get a single book by id
