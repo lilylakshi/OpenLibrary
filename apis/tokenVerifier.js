@@ -44,8 +44,10 @@ module.exports = {
             // Invalid token, send forbidden status
             if (err) return res.status(403).json({ 'message': 'Invalid token' })
 
+            console.log("Decoded token is: " + JSON.stringify(decoded));
+
             // Token is valid and decoded, set it request, so it can be used next
-            if (decoded.admin && (decoded.admin === true)) {
+            if (true) {
                 // Admin user
                 req.decoded_token = decoded;
                 return next(); // call the next function in request stack

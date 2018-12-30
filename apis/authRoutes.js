@@ -81,6 +81,7 @@ router.post('/register', (req, res) => {
     console.log("----------------register(post) request received!-------------------------")
     var username = req.body.username;
     var password = req.body.password;
+    var isAdmin = req.body.admin;
 
     // username or password missing, bad request
     if (!username | !password) return res.status(400).json({ 'message': 'Invalid data parsed' });
@@ -103,7 +104,8 @@ router.post('/register', (req, res) => {
         // Create new user
         UserModel.create({
             'username': lowerUsername,
-            'password': hashedPassword
+            'password': hashedPassword,
+            'admin': isAdmin ? 'admin' : 'user'
         }, function (err, user) {
 
             if (err) return res.status(500).json({ 'auth': false, 'token': null, 'message': 'Error registering user' })

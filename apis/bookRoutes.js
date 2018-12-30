@@ -59,7 +59,9 @@ router.get('/isbn/:isbn', tokenVerifier.verifyUser, (req, res) => {
 
 // Add a book
 router.post('/', tokenVerifier.verifyAdmin, (req, res) => {
-
+  res.header("Access-Control-Allow-Origin", "*");
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Origin, Authorization, Accept, Client-Security-Token, Accept-Encoding');
+  
   var param = req.body;
 
   if (!param.isbn) return res.status(400).json({ 'message': 'isbn number missing' });
